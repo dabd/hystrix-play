@@ -1,13 +1,11 @@
 package controllers
 
-import play.api.mvc._
 import commands.{HelloWorld, HelloWorldAsync}
-import util.Futures
+import play.api.mvc._
 
 object Application extends Controller {
   import play.api.libs.concurrent.Execution.Implicits.defaultContext
-
-import util.Futures._
+  import util.Futures._
 
   def index = Action {
     Ok(views.html.index("Your new application is ready."))

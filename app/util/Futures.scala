@@ -1,8 +1,8 @@
 package util
 
-import scala.concurrent.{Future, Promise}
+import com.netflix.hystrix.HystrixObservable
 
-import com.netflix.hystrix.HystrixExecutable
+import scala.concurrent.{Future, Promise}
 
 
 object Futures {
@@ -13,7 +13,7 @@ object Futures {
     def onCompleted(): Unit = ()
   }
 
-  implicit final class HystrixCommandWithScalaFuture[T](val cmd: HystrixExecutable[T]) extends AnyVal {
+  implicit final class HystrixCommandWithScalaFuture[T](val cmd: HystrixObservable[T]) extends AnyVal {
     def future: Future[T] = {
       val promise = Promise[T]()
       val observer = new ForPromiseObserver(promise)

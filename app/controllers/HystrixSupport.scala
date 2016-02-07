@@ -21,7 +21,7 @@ object HystrixSupport extends Controller {
   def stream(delayOpt: Option[Int]) = Action {
 
     val numberConnections = concurrentConnections.incrementAndGet()
-    val maxConnections = maxConcurrentConnections.get()
+    val maxConnections = maxConcurrentConnections.get
 
     Some(numberConnections).
       filter(_ <= maxConnections).

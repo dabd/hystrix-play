@@ -1,25 +1,25 @@
 package commands
 
-import scala.concurrent.duration._
-
 import akka.actor.{Actor, Props}
-
 import com.netflix.hystrix.{HystrixCommandGroupKey, HystrixObservableCommand}
 import rx.Observable
 import rx.lang.scala.Observer
 import rx.lang.scala.subjects.ReplaySubject
+
+import scala.concurrent.duration._
 
 
 class HelloWorldAsync(name: String) extends HystrixObservableCommand[String](HelloWorldAsync.key) {
   import play.api.Play.current
   import play.api.libs.concurrent.Akka
 
-  def run(): Observable[String] = {
+  override def construct(): Observable[String] = {
     val channel = ReplaySubject[String]()
     Akka.system.actorOf(HelloWorldAsync.actor(channel, name))
     channel.asJavaSubject
   }
 }
+
 object HelloWorldAsync {
   private final val key = HystrixCommandGroupKey.Factory.asKey("HelloWorldAsync")
 
